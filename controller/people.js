@@ -1,7 +1,7 @@
 const express = require("express");
 const peopleArr = require("../data/people");
 const people = express.Router();
-const { getAllPeople } = require("../queries/people");
+const { getAllPeople, getOnePerson } = require("../queries/people");
 
 people.get("/", async (req, res) => {
     try {
@@ -10,8 +10,17 @@ people.get("/", async (req, res) => {
     } catch (error) {
         res.status(404).json({ payload: error })
     }
-})
+});
 
+people.get("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const person = await getOnePerson(id);
+        res.status(200).json({ payload: person });
+    } catch (error) {
+        res.status(404).json({ payload: error });
+    }
+});
 
 
 

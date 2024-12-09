@@ -7,8 +7,18 @@ const getAllPeople = async () => {
     } catch (error) {
         return error;
     }
-}
+};
+const getOnePerson = async (personId) => {
+    try {
+        const person = await db.one("SELECT * FROM people WHERE id=$1", personId);
+    } catch (error) {
+        return error;
+    }
+};
+
+
 
 module.exports = {
-    getAllPeople
+    getAllPeople,
+    getOnePerson
 }
