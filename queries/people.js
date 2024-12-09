@@ -35,9 +35,19 @@ const updateOnePerson = async (id, anime) => {
     }
 };
 
+const deleteOnePerson = async (personId) => {
+    try {
+        const deletedPerson = await db.one("DELETE FROM people WHERE id=$1 RETURNING *", personId);
+        return deletedPerson;
+    } catch (error) {
+        return error;
+    }
+}
+
 module.exports = {
     getAllPeople,
     getOnePerson,
     createOnePerson,
-    updateOnePerson
+    updateOnePerson,
+    deleteOnePerson
 }

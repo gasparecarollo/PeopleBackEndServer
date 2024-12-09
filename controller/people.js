@@ -1,7 +1,7 @@
 const express = require("express");
 const peopleArr = require("../data/people");
 const people = express.Router();
-const { getAllPeople, getOnePerson, createOnePerson, updateOnePerson } = require("../queries/people");
+const { getAllPeople, getOnePerson, createOnePerson, updateOnePerson, deleteOnePerson } = require("../queries/people");
 
 people.get("/", async (req, res) => {
     try {
@@ -38,6 +38,16 @@ people.put("/:id", async (req, res) => {
         const person = req.body;
         const updatedPerson = await updateOnePerson(id, anime);
         res.status(200).json({ payload: updatedPerson });
+    } catch (error) {
+        res.status(404).json({ payload: error });
+    }
+});
+
+people.delete("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedPerson = await deleteOnePerson(id);
+        res.status(200).json({ payload: deletedPerson });
     } catch (error) {
         res.status(404).json({ payload: error });
     }
