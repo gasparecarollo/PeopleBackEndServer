@@ -1,7 +1,7 @@
 const express = require("express");
 const peopleArr = require("../data/people");
 const people = express.Router();
-const { getAllPeople, getOnePerson } = require("../queries/people");
+const { getAllPeople, getOnePerson, createOnePerson } = require("../queries/people");
 
 people.get("/", async (req, res) => {
     try {
@@ -22,7 +22,15 @@ people.get("/:id", async (req, res) => {
     }
 });
 
-
+people.post("/", async (req, res) => {
+    try {
+        const person = req.body;
+        const newPerson = await createOnePerson(person)
+        res.status(201).json({ payload: newPerson });
+    } catch (error) {
+        res.status(404).json({ payload: error });
+    }
+});
 
 // people.get("/people", (req, res) => {
 //     res.status(200).json(peopleArr);
