@@ -25,9 +25,19 @@ const createOnePerson = async ({ name, description }) => {
     }
 };
 
+const updateOnePerson = async (id, anime) => {
+    const { name, description } = person;
+    try {
+        const updatedPerson = await db.one("UPDATE people SET name=$1, description=$2 WHERE id=$3 RETURNING *", [name, description, id]);
+        return updatedPerson;
+    } catch (error) {
+        return error;
+    }
+};
 
 module.exports = {
     getAllPeople,
     getOnePerson,
-    createOnePerson
+    createOnePerson,
+    updateOnePerson
 }
